@@ -21,7 +21,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar
 SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
 SRC_URI[sha256sum] = "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
 
-COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
+COMPATIBLE_HOST = '(x86_64|i.86|aarch64).*-(linux|freebsd.*)'
 # Don't let the sanity checker trip on the 32 bit real mode BIOS binaries
 INSANE_SKIP_${PN}-misc = "arch"
 INSANE_SKIP_${PN}-chain = "arch"
@@ -52,11 +52,19 @@ do_compile() {
 
 	# Rebuild only the installer; keep precompiled bootloaders
 	# as per author's request (doc/distrib.txt)
-	oe_runmake CC="${CC} ${CFLAGS}" LDFLAGS="${LDFLAGS}" firmware="bios" installer
+        if [ "${TARGET_ARCH}" == "x86_64" ]; then
+		oe_runmake CC="${CC} ${CFLAGS}" LDFLAGS="${LDFLAGS}" firmware="bios" installer
+	elif [ "${TARGET_ARCH}" == "AARCH64" ]; then
+		oe_runmake CC="${CC} ${CFLAGS}" LDFLAGS="${LDFLAGS}" installer
+	fi
 }
 
 do_install() {
-	oe_runmake CC="${CC} ${CFLAGS}" install INSTALLROOT="${D}" firmware="bios"
+        if [ "${TARGET_ARCH}" == "x86_64" ]; then
+		oe_runmake CC="${CC} ${CFLAGS}" install INSTALLROOT="${D}" firmware="bios"
+        elif [ "${TARGET_ARCH}" == "AARCH64" ]; then
+		oe_runmake CC="${CC} ${CFLAGS}" install INSTALLROOT="${D}"
+	fi
 
 	install -d ${D}${datadir}/syslinux/
 	install -m 644 ${S}/bios/core/ldlinux.sys ${D}${datadir}/syslinux/
