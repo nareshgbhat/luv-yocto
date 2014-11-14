@@ -66,7 +66,13 @@ populate() {
 	install -d ${DEST}
 
 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
-	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
+	if [ "${TARGET_ARCH}" = "x86_64" ]; then
+		install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
+	fi
+	if [ "${TARGET_ARCH}" = "aarch64" ]; then
+		install -m 0644 ${STAGING_KERNEL_DIR}/Image ${DEST}/Image
+	fi
+
 
 	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
 		install -m 0644 ${INITRD} ${DEST}/initrd
