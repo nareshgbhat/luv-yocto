@@ -20,12 +20,19 @@ efi_populate() {
     install -d ${DEST}${EFIDIR}
     install -d ${DEST}${EFIDIR}/bits
 
-    # Install both the grub2 and BITS loaders
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_LOADER_IMAGE} ${DEST}${EFIDIR}
+    # Install grub2 
+    if [ "${TARGET_ARCH}" = "aarch64" ]; then
+		install -m 0644 ${DEPLOY_DIR_IMAGE}/grubaa64.efi ${DEST}${EFIDIR}
+    else
+		install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_LOADER_IMAGE} ${DEST}${EFIDIR}
+    fi
 
-    cp -r ${DEPLOY_DIR_IMAGE}/bits/boot ${DEST}
-    install -m 0644 ${DEPLOY_DIR_IMAGE}/bits/efi/boot/${EFI_LOADER_IMAGE} \
-        ${DEST}${EFIDIR}/bits/
+    # Install BITS only for x86_64 architecture
+    if [ "${TARGET_ARCH}" = "x86_64" ]; then
+	    cp -r ${DEPLOY_DIR_IMAGE}/bits/boot ${DEST}
+	    install -m 0644 ${DEPLOY_DIR_IMAGE}/bits/efi/boot/${EFI_LOADER_IMAGE} \
+	        ${DEST}${EFIDIR}/bits/
+    fi
 
     install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
 
