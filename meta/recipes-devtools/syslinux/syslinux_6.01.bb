@@ -69,6 +69,7 @@ do_install() {
 	install -d ${D}${datadir}/syslinux/
 	install -m 644 ${S}/bios/core/ldlinux.sys ${D}${datadir}/syslinux/
 	install -m 644 ${S}/bios/core/ldlinux.bss ${D}${datadir}/syslinux/
+	install -m 644 ${S}/bios/core/isolinux.bin ${D}${datadir}/syslinux/
 }
 
 PACKAGES += "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
