@@ -68,7 +68,7 @@ python do_create_img() {
     bb.build.exec_func('build_img', d)
 }
 
-do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
+do_bootimg[depends] += "grub:do_deploy ${INITRD_IMAGE}:do_rootfs"
 do_bootimg[depends] += "virtual/kernel:do_populate_sysroot"
 
 addtask create_img after do_bootimg before do_build
