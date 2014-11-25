@@ -45,8 +45,15 @@ efi_iso_populate() {
     # Build a EFI directory to create efi.img
     mkdir -p ${EFIIMGDIR}/${EFIDIR}
     cp -r $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-    cp $iso_dir/vmlinuz ${EFIIMGDIR}
-    echo "${EFI_LOADER_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+
+    if [ "${TARGET_ARCH}" = "aarch64" ] ; then
+        echo "grubaa64.efi" > ${EFIIMGDIR}/startup.nsh
+        cp $iso_dir/Image ${EFIIMGDIR}
+    fi
+    if [ "${TARGET_ARCH}" = "x86_64" ] ; then
+        echo "${GRUB_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+        cp $iso_dir/vmlinuz ${EFIIMGDIR}
+    fi
     if [ -f "$iso_dir/initrd" ] ; then
         cp $iso_dir/initrd ${EFIIMGDIR}
     fi
@@ -66,12 +73,19 @@ python build_efi_cfg() {
     except OSError:
         raise bb.build.funcFailed('Unable to open %s' % (cfgfile))
 
+    # default is bits if architecture is x86_64
     cfgfile.write('default=bits\n')
+
     cfgfile.write('timeout=0\n')
     cfgfile.write('fallback=0\n')
 
     cfgfile.write('menuentry \'luv\' {\n')
-    cfgfile.write('linux /vmlinuz')
+   
+    if "${TARGET_ARCH}" == "x86_64":
+        cfgfile.write('linux /vmlinuz')
+
+    if "${TARGET_ARCH}" == "aarch64":
+        cfgfile.write('linux /Image')
 
     append = d.getVar('APPEND', True)
     if append:
@@ -87,7 +101,13 @@ python build_efi_cfg() {
         raise bb.build.FuncFailed('Unable to find EFI_LOADER_IMAGE')
 
     cfgfile.write('menuentry \'bits\' {\n')
-    cfgfile.write('chainloader /EFI/BOOT/bits/%s\n' % loader)
+    
+    if "${TARGET_ARCH}" == "x86_64":
+        cfgfile.write('chainloader /EFI/BOOT/bits/%s\n' % loader)
+
+    if "${TARGET_ARCH}" == "aarch64":
+        cfgfile.write('chainloader /EFI/BOOT/bits/grubaa64.efi \n')
+
     cfgfile.write('}\n')
 
     cfgfile.close()
