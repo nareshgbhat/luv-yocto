@@ -18,24 +18,28 @@ efi_populate() {
     DEST=$1
 
     install -d ${DEST}${EFIDIR}
-    install -d ${DEST}${EFIDIR}/bits
 
-    # Install grub2 
+    # Create bits directory only for x86_64 target.
+    if [ "${TARGET_ARCH}" = "x86_64" ]; then
+       install -d ${DEST}${EFIDIR}/bits
+    fi
+
+    # Install grub2 in EFI directory.
     if [ "${TARGET_ARCH}" = "aarch64" ]; then
 		install -m 0644 ${DEPLOY_DIR_IMAGE}/grubaa64.efi ${DEST}${EFIDIR}
     else
 		install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_LOADER_IMAGE} ${DEST}${EFIDIR}
     fi
 
-    # Install BITS only for x86_64 architecture
+    # Install BITS only for x86_64 architecture.
     if [ "${TARGET_ARCH}" = "x86_64" ]; then
 	    cp -r ${DEPLOY_DIR_IMAGE}/bits/boot ${DEST}
 	    install -m 0644 ${DEPLOY_DIR_IMAGE}/bits/efi/boot/${EFI_LOADER_IMAGE} \
 	        ${DEST}${EFIDIR}/bits/
     fi
 
+    # Install splash and grub.cfg files into EFI directory.
     install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
-
     install -m 0644 ${WORKDIR}/${SPLASH_IMAGE} ${DEST}${EFIDIR}
 }
 
@@ -74,10 +78,11 @@ python build_efi_cfg() {
         raise bb.build.funcFailed('Unable to open %s' % (cfgfile))
 
     # default is bits if architecture is x86_64
-    cfgfile.write('default=bits\n')
+    if "${TARGET_ARCH}" == "x86_64":
+        cfgfile.write('default=bits\n')
 
-    cfgfile.write('timeout=0\n')
-    cfgfile.write('fallback=0\n')
+    cfgfile.write('timeout=1\n')
+    cfgfile.write('fallback=1\n')
 
     cfgfile.write('menuentry \'luv\' {\n')
    
