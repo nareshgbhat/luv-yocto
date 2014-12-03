@@ -11,7 +11,7 @@ INITRD_IMAGE = "core-image-efi-initramfs"
 INITRD = "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}.cpio.gz"
 MACHINE_FEATURES += "efi"
 APPEND = "crashkernel=256M console=ttyS0,115200 console=ttyPCH0,115200"
-APPEND_aarch64 = "crashkernel=256M console=ttyAMA0,38400n8 uefi_debug earlycon=pl011,0x1c090000"
+APPEND_aarch64 = "crashkernel=256M console=ttySBSA0 uefi_debug earlycon=sbsauart,0x1c090000 acpi=force"
 
 SPLASH_IMAGE = "blue-luv.jpg"
 
