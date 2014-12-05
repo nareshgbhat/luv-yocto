@@ -3,6 +3,9 @@ SECTION = "kernel"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
+DEPENDS += "xz-native bc-native" 
+DEPENDS_aarch64 += "libgcc"
+
 inherit kernel siteinfo deploy
 
 SRCREV = "${AUTOREV}"
@@ -15,7 +18,7 @@ S = "${WORKDIR}/git"
 COMPATIBLE_MACHINE = "genericarmv8"
 KERNEL_IMAGETYPE = "Image"
 
-BOOTARGS_COMMON = "console=ttySBSA0 mem=512M earlycon=pl011,0x1c090000 rw"
+BOOTARGS_COMMON = "crashkernel=256M console=ttySBSA0 uefi_debug earlycon=sbsauart,0x1c090000 acpi=force"
 
 SRC_URI[md5sum] = "730923a8ee0ded0ddbfe91e500cb3706"
 SRC_URI[sha256sum] = "53c64f40cce74531d117cd3495b5c0c52b24e1ad1b7de9fa27deea396edb4d87"
