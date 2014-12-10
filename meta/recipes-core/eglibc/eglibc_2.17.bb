@@ -153,4 +153,10 @@ do_compile () {
 
 require eglibc-package.inc
 
+# Workaround fix to avoid init crash
+do_install_append () {
+   ln -sf lib ${D}/lib64
+}
+FILES_${PN} += " /lib64 "
+
 BBCLASSEXTEND = "nativesdk"
