@@ -106,15 +106,10 @@ python build_efi_cfg() {
     if not loader:
         raise bb.build.FuncFailed('Unable to find EFI_LOADER_IMAGE')
 
-    cfgfile.write('menuentry \'bits\' {\n')
-    
     if "${TARGET_ARCH}" == "x86_64":
+        cfgfile.write('menuentry \'bits\' {\n')
         cfgfile.write('chainloader /EFI/BOOT/bits/%s\n' % loader)
-
-    if "${TARGET_ARCH}" == "aarch64":
-        cfgfile.write('chainloader /EFI/BOOT/bits/grubaa64.efi \n')
-
-    cfgfile.write('}\n')
+        cfgfile.write('}\n')
 
     cfgfile.close()
 }
