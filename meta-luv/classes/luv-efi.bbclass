@@ -27,6 +27,7 @@ efi_populate() {
     # Install grub2 in EFI directory.
     if [ "${TARGET_ARCH}" = "aarch64" ]; then
 		install -m 0644 ${DEPLOY_DIR_IMAGE}/grubaa64.efi ${DEST}${EFIDIR}
+                echo "grubaa64.efi" > ${DEST}${EFIDIR}/startup.nsh
     else
 		install -m 0644 ${DEPLOY_DIR_IMAGE}/${EFI_LOADER_IMAGE} ${DEST}${EFIDIR}
     fi
