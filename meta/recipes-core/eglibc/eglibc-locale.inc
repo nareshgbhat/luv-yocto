@@ -85,6 +85,9 @@ do_install () {
 	fi
 	chown root.root -R ${D}
 	cp -fpPR ${LOCALETREESRC}/SUPPORTED ${WORKDIR}
+
+        #Remove empty /usr/lib/locale directory
+        rm -rf ${D}/${libdir}/locale
 }
 
 inherit libc-package
