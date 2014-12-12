@@ -52,14 +52,14 @@ do_configure_prepend() {
 do_install_append () {
     install -d ${D}${sysconfdir}/grub.d
     #install -m 0755 ${WORKDIR}/40_custom ${D}${sysconfdir}/grub.d/40_custom
-    install -m 0755 ${S}/${GRUB_IMAGE} ${D}${bindir}
+    install -m 0755 ${B}/${GRUB_IMAGE} ${D}${bindir}
  
 }
 
 
 do_deploy() {
 	install -d ${DEPLOYDIR}
-        install -m 0755 ${S}/${GRUB_IMAGE} ${DEPLOYDIR}
+        install -m 0755 ${B}/${GRUB_IMAGE} ${DEPLOYDIR}
 }
 addtask deploy after do_install before do_build
 
