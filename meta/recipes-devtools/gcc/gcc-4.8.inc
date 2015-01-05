@@ -77,7 +77,6 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
 	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
 	   file://0046-libatomic-deptracking.patch \
 	   file://0047-repomembug.patch \
-           file://redefine-dynamic-linker-for-aarch64.patch \
            file://use-lib-for-aarch64.patch \
 	  "
 SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
