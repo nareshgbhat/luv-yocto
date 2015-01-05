@@ -4,19 +4,11 @@ HOMEPAGE = "https://wiki.ubuntu.com/Kernel/Reference/fwts"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://src/main.c;beginline=1;endline=16;md5=deb8af5388e838d133eaa036f4d1496f"
 
-PV = "14.03.01+git${SRCPV}"
+PV = "14.12.00+git${SRCPV}"
 
-SRCREV = "8ec44dc1e55ecf334f4afa8eed8795ed5776c396"
+SRCREV = "efc18d16294f492b7f72bba64344b2eed50e6a69"
 SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
            file://luv-parser-fwts \
-           file://0001-efi_runtime-Set-default-value-for-KVER.patch \
-           file://0002-efi_runtime-Refactor-ioctl-code-into-helper-function.patch \
-           file://0003-efi_runtime-Group-kernel-version-dependent-functions.patch \
-           file://0004-efi_runtime-Do-not-pass-user-addresses-to-firmware.patch \
-	   file://0005-efi_runtime-donot-dereference-user-address.patch \
-           file://0006-cpu-microcode-remove-failures-when-kernel-does-not-h.patch \ 
-           file://0007-securebootcert-report-info-instead-of-failure-for-mi.patch \
-           file://0008-efi_runtime-Don-t-use-get_user-on-non-pointer.patch \
           "
 
 S = "${WORKDIR}/git"
@@ -24,6 +16,8 @@ DEPENDS = "autoconf automake libtool libpcre libjson flex bison \
 	virtual/kernel "
 
 inherit autotools luv-test module-base
+
+CFLAGS += "-I${STAGING_INCDIR}/json"
 
 do_unpack[depends] += "virtual/kernel:do_populate_sysroot"
 
