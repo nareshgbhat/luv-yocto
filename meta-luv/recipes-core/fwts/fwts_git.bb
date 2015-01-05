@@ -4,29 +4,20 @@ HOMEPAGE = "https://wiki.ubuntu.com/Kernel/Reference/fwts"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://src/main.c;beginline=1;endline=16;md5=deb8af5388e838d133eaa036f4d1496f"
 
-PV = "14.03.01+git${SRCPV}"
+PV = "15.01.00+git${SRCPV}"
 
-SRCREV = "8ec44dc1e55ecf334f4afa8eed8795ed5776c396"
+SRCREV = "8ef99fe60e19c0c1175eb9e8e3e4a6e24d4319a7"
 SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
            file://luv-parser-fwts \
-           file://0001-efi_runtime-Set-default-value-for-KVER.patch \
-           file://0002-efi_runtime-Refactor-ioctl-code-into-helper-function.patch \
-           file://0003-efi_runtime-Group-kernel-version-dependent-functions.patch \
-           file://0004-efi_runtime-Do-not-pass-user-addresses-to-firmware.patch \
-	   file://0005-efi_runtime-donot-dereference-user-address.patch \
-           file://0006-cpu-microcode-remove-failures-when-kernel-does-not-h.patch \ 
-           file://0007-securebootcert-report-info-instead-of-failure-for-mi.patch \
-           file://0008-efi_runtime-Don-t-use-get_user-on-non-pointer.patch \
-           file://0009-efi_runtime-limit-the-amount-of-data-copied-to-users.patch \
-           file://0010-efi_runtime-get_nextvariable-copy-only-the-needed-na.patch \
-           file://0011-uefirtvariable-allow-large-sizes-for-variable-names.patch \
           "
 
 S = "${WORKDIR}/git"
 DEPENDS = "autoconf automake libtool libpcre json-c flex bison \
-	virtual/kernel "
+	virtual/kernel glib-2.0"
 
 inherit autotools-brokensep luv-test module-base
+
+CFLAGS += "-I${STAGING_INCDIR}/json"
 
 do_unpack[depends] += "virtual/kernel:do_populate_sysroot"
 
