@@ -9,6 +9,7 @@ PV = "14.12.00+git${SRCPV}"
 SRCREV = "efc18d16294f492b7f72bba64344b2eed50e6a69"
 SRC_URI = "git://kernel.ubuntu.com/hwe/fwts.git \
            file://luv-parser-fwts \
+           file://Use-sysroot-path-for-json.patch \
           "
 
 S = "${WORKDIR}/git"

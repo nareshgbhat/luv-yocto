@@ -1,0 +1,48 @@
+--- a/src/lib/src/Makefile.am
++++ b/src/lib/src/Makefile.am
+@@ -2,8 +2,8 @@
+ 	-I$(top_srcdir)/src/lib/include 		\
+ 	-I$(top_srcdir)/src/acpica/source/include	\
+ 	-I$(top_srcdir)/src/acpica/source/compiler	\
+-	-I/usr/include/json				\
+-	-I/usr/include/json-c				\
++	-I=/usr/include/json				\
++	-I=/usr/include/json-c				\
+ 	`pkg-config --cflags glib-2.0 gio-2.0` 		\
+ 	-DDATAROOTDIR=\"$(datarootdir)\"		\
+ 	-Wall -Werror -Wextra
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -11,8 +11,8 @@
+ 	-I$(top_srcdir)/src/acpica/source/include \
+ 	-I$(top_srcdir)/src/acpica/source/compiler \
+ 	-I$(top_srcdir)/efi_runtime \
+-	-I/usr/include/json \
+-	-I/usr/include/json-c \
++	-I=/usr/include/json \
++	-I=/usr/include/json-c \
+ 	-pthread `pkg-config --cflags glib-2.0 gio-2.0` \
+ 	-Wall -Werror -Wextra
+ 
+--- a/src/utilities/Makefile.am
++++ b/src/utilities/Makefile.am
+@@ -1,5 +1,5 @@
+ AM_CPPFLAGS = -Wall -Werror -Wextra -DDATAROOTDIR=\"$(datarootdir)\" \
+-	-I/usr/include/json -I/usr/include/json-c
++	-I=/usr/include/json -I=/usr/include/json-c
+ 
+ bin_PROGRAMS = kernelscan
+ kernelscan_SOURCES = kernelscan.c
+--- a/src/acpica/Makefile.am
++++ b/src/acpica/Makefile.am
+@@ -8,8 +8,8 @@
+ 	-D_LINUX -DNDEBUG -D_CONSOLE -DACPI_EXEC_APP	\
+ 	-I$(top_srcdir)/src/lib/include			\
+ 	-I$(srcdir)/source/include			\
+-	-I/usr/include/json				\
+-	-I/usr/include/json-c				\
++	-I=/usr/include/json				\
++	-I=/usr/include/json-c				\
+ 	-Wall -fno-strict-aliasing
+ 
+ #
