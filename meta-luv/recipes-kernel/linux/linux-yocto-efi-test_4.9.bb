@@ -94,6 +94,7 @@ SRC_URI_append_x86-64 = " file://defconfig \
 # Add the defconfig from v4.6 kernel and the configuration arm64 fragments
 SRC_URI_append_aarch64 = " file://${MACHINE}/defconfig \
                            file://${MACHINE}/network.cfg \
+                           file://${MACHINE}/0001-serial-SPCR-check-bit-width-for-the-16550-UART.patch \
                          "
 
 # Override KCONFIG_MODE to '--alldefconfig' from the default '--allnoconfig'
