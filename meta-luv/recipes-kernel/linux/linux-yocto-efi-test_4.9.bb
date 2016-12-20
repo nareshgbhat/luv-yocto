@@ -103,7 +103,6 @@ SRC_URI_append_x86-64 = " file://defconfig \
 
 # Add the defconfig from v4.9 kernel and the configuration arm64 fragments
 SRC_URI_append_aarch64 = " file://${MACHINE}/defconfig \
-                           file://${MACHINE}/acpi.cfg \
                            file://${MACHINE}/network.cfg \
                          "
 
