@@ -1,0 +1,25 @@
+From 4e4bc12e26b01dd0dc2e5d4898d5d1d20734bf08 Mon Sep 17 00:00:00 2001
+From: Megha Dey <megha.dey@linux.intel.com>
+Date: Tue, 21 Nov 2017 14:50:02 -0800
+Subject: [PATCH] setup network only if luv.telemetrics is present
+
+Signed-off-by: Megha Dey <megha.dey@linux.intel.com>
+---
+ units/systemd-networkd-wait-online.service.in | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/units/systemd-networkd-wait-online.service.in b/units/systemd-networkd-wait-online.service.in
+index 7666e16..ce3793e 100644
+--- a/units/systemd-networkd-wait-online.service.in
++++ b/units/systemd-networkd-wait-online.service.in
+@@ -10,6 +10,7 @@
+ [Unit]
+ Description=Wait for Network to be Configured
+ Documentation=man:systemd-networkd-wait-online.service(8)
++ConditionKernelCommandLine=luv.telemetrics
+ DefaultDependencies=no
+ Conflicts=shutdown.target
+ Requires=systemd-networkd.service
+-- 
+1.9.1
+
