@@ -1,0 +1,30 @@
+From ca77f7122ce9e7ed24640afc486c4f2f10d38394 Mon Sep 17 00:00:00 2001
+From: Gayatri Kammela <gayatri.kammela@intel.com>
+Date: Mon, 20 Nov 2017 20:29:08 -0800
+Subject: [PATCH] Bits: toplevel.cfg: Disable Bits when user chose not to run
+ bits
+
+This patch disables the bits testsuite when the keyword "bits" is not
+found in luv.cfg file.
+
+Signed-off-by: Gayatri Kammela <gayatri.kammela@intel.com>
+---
+ cfg/toplevel.cfg | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/cfg/toplevel.cfg b/cfg/toplevel.cfg
+index b615f3aede83..3707f6906183 100644
+--- a/cfg/toplevel.cfg
++++ b/cfg/toplevel.cfg
+@@ -28,6 +28,8 @@
+ #
+ #------------------------------------------------------------------------------
+
++if [ ! grep -q "bits" /proc/cmdline ]; then exit; fi
++
+ echo "Starting BITS ..."
+
+ if [ -e /boot/cfg/init.cfg ]; then source /boot/cfg/init.cfg; fi
+--
+2.7.4
+
