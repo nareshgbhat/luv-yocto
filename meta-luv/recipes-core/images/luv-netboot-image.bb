@@ -25,6 +25,7 @@ do_mkimage[depends] += "dosfstools-native:do_populate_sysroot \
                         mtools-native:do_populate_sysroot \
                         cdrtools-native:do_populate_sysroot \
                         virtual/kernel:do_deploy \
+                        ${INITRD_IMAGE_LIVE}:do_image_complete \
 			${_BITSDEPENDS}"
 
 do_bootimg[noexec] = "1"
